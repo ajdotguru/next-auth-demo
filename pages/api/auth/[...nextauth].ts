@@ -1,4 +1,3 @@
-// @ts-nocheck
 import NextAuth from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import jwt from 'jsonwebtoken';
@@ -14,7 +13,7 @@ export default NextAuth({
 	jwt: {
 		secret: process.env.SECRET,
 		async encode({ secret, token }) {
-			const jwtClaims = {
+			/* const jwtClaims = {
 				sub: token?.sub?.toString(),
 				name: token?.name,
 				picture: token?.picture,
@@ -26,9 +25,10 @@ export default NextAuth({
 					'x-hasura-role': 'user',
 					'x-hasura-user-id': token?.sub?.toString(),
 				},
-			};
+			}; */
 
-			const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'HS256' });
+			// const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'HS256' });
+			const encodedToken = jwt.sign(token!, secret, { algorithm: 'HS256' });
 
 			// return encodedToken;
 			return Promise.resolve(encodedToken);
