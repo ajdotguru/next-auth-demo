@@ -4,6 +4,8 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 const Home: NextPage = () => {
 	const { data: session } = useSession();
 
+	console.log('session :: ', session);
+
 	if (session) {
 		return (
 			<>
@@ -16,7 +18,7 @@ const Home: NextPage = () => {
 	return (
 		<>
 			Not signed in <br />
-			<button onClick={() => signIn()}>Sign in</button>
+			<button onClick={() => signIn('github')}>Sign in</button>
 		</>
 	);
 };
