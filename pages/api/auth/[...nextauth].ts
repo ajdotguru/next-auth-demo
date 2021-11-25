@@ -30,13 +30,15 @@ export default NextAuth({
 
 			const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'HS256' });
 
-			return encodedToken;
+			// return encodedToken;
+			return Promise.resolve(encodedToken);
 		},
 		async decode({ secret, token }) {
 			// @ts-ignore
 			const decodedToken = jwt.verify(token, secret, { algorithms: ['HS256'] });
 
-			return decodedToken;
+			// return decodedToken;
+			return Promise.resolve(decodedToken);
 		},
 	},
 	// callbacks: {
