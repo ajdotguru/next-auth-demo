@@ -30,6 +30,7 @@ export default NextAuth({
 
 			const jwtClaims = {
 				sub: '123456',
+				id: '123456',
 				name: 'token.name',
 				picture: 'token.picture',
 				iat: Date.now() / 1000,
@@ -45,15 +46,15 @@ export default NextAuth({
 			const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'HS256' });
 			// const encodedToken = jwt.sign(token!, secret, { algorithm: 'HS256' });
 
-			return encodedToken;
-			// return Promise.resolve(encodedToken);
+			// return encodedToken;
+			return Promise.resolve(encodedToken);
 		},
 		async decode({ secret, token }) {
 			// @ts-ignore
 			const decodedToken = jwt.verify(token, secret, { algorithms: ['HS256'] });
 
-			return decodedToken;
-			// return Promise.resolve(decodedToken);
+			// return decodedToken;
+			return Promise.resolve(decodedToken);
 		},
 	},
 	callbacks: {
