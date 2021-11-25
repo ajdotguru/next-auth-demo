@@ -1,3 +1,4 @@
+// @ts-nocheck
 import NextAuth from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import jwt from 'jsonwebtoken';
@@ -12,7 +13,7 @@ export default NextAuth({
 	secret: process.env.SECRET,
 	jwt: {
 		secret: process.env.SECRET,
-		/* async encode({ secret, token }) {
+		async encode({ secret, token }) {
 			const jwtClaims = {
 				sub: token?.sub?.toString(),
 				name: token?.name,
@@ -36,7 +37,7 @@ export default NextAuth({
 			const decodedToken = jwt.verify(token, secret, { algorithms: ['HS256'] });
 
 			return decodedToken;
-		}, */
+		},
 	},
 	// callbacks: {
 	/* async session({ session, token, user }) {
