@@ -40,6 +40,8 @@ export default NextAuth({
 	},
 	callbacks: {
 		async session({ session, token, user }) {
+			console.log('session :: ', session);
+
 			if (session && session.user) {
 				session.user.image = token.picture;
 			}
@@ -52,7 +54,9 @@ export default NextAuth({
 				algorithm: 'HS256',
 			});
 
-			session.token = encodedToken;
+			if (session) {
+				session.token = encodedToken;
+			}
 
 			return Promise.resolve(session);
 		},
