@@ -13,22 +13,22 @@ export default NextAuth({
 	jwt: {
 		secret: process.env.SECRET,
 		async encode({ secret, token }) {
-			/* const jwtClaims = {
-				sub: token?.sub?.toString(),
-				name: token?.name,
-				picture: token?.picture,
+			const jwtClaims = {
+				sub: token!.sub!.toString(),
+				name: token!.name,
+				picture: token!.picture,
 				iat: Date.now() / 1000,
 				exp: Math.floor(Date.now() / 1000) + 60 * 60,
 				'https://hasura.io/jwt/claims': {
 					'x-hasura-allowed-roles': ['user'],
 					'x-hasura-default-role': 'user',
 					'x-hasura-role': 'user',
-					'x-hasura-user-id': token?.sub?.toString(),
+					'x-hasura-user-id': token!.sub!.toString(),
 				},
-			}; */
+			};
 
-			// const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'HS256' });
-			const encodedToken = jwt.sign(token!, secret, { algorithm: 'HS256' });
+			const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'HS256' });
+			// const encodedToken = jwt.sign(token!, secret, { algorithm: 'HS256' });
 
 			// return encodedToken;
 			return Promise.resolve(encodedToken);
@@ -43,8 +43,6 @@ export default NextAuth({
 	},
 	callbacks: {
 		async session({ session, token, user }) {
-			console.log('session :: ', session);
-
 			if (session && session.user) {
 				session.user.image = token.picture;
 			}
