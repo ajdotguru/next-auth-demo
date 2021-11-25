@@ -60,13 +60,13 @@ export default NextAuth({
 
 			return Promise.resolve(session);
 		},
-		async jwt({ token, user, account, profile, isNewUser }) {
+		/* async jwt({ token, user, account, profile, isNewUser }) {
 			if (user) {
 				token.id = user?.id.toString();
 			}
 
 			return Promise.resolve(token);
-		},
+		}, */
 	},
 	debug: true,
 });
