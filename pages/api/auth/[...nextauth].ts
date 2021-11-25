@@ -29,14 +29,16 @@ export default NextAuth({
 			}; */
 
 			const jwtClaims = {
-				sub: token.sub,
+				sub: '123456',
+				name: 'token.name',
+				picture: 'token.picture',
 				iat: Date.now() / 1000,
 				exp: Math.floor(Date.now() / 1000) + 60 * 60,
 				'https://hasura.io/jwt/claims': {
 					'x-hasura-allowed-roles': ['user'],
 					'x-hasura-default-role': 'user',
 					'x-hasura-role': 'user',
-					'x-hasura-user-id': token.sub,
+					'x-hasura-user-id': '123456',
 				},
 			};
 
@@ -56,12 +58,12 @@ export default NextAuth({
 	},
 	callbacks: {
 		async session({ session, token, user }) {
-			/* if (session && session.user) {
+			if (session && session.user) {
 				session.user.image = token.picture;
-			} */
+			}
 
-			// token.name = undefined;
-			// token.picture = undefined;
+			token.name = undefined;
+			token.picture = undefined;
 
 			// @ts-ignore
 			const encodedToken = jwt.sign(token, process.env.SECRET, {
