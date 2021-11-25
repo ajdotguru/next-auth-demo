@@ -47,7 +47,8 @@ export default NextAuth({
 			token.name = undefined;
 			token.picture = undefined;
 
-			const encodedToken = jwt.sign(token, process.env.SECRET!, {
+			// @ts-ignore
+			const encodedToken = jwt.sign(token, process.env.SECRET, {
 				algorithm: 'RS256',
 			});
 
