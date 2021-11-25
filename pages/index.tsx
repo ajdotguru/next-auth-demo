@@ -10,7 +10,7 @@ const Home: NextPage = () => {
 		return (
 			<>
 				Signed in as {session?.user?.name} <br />
-				<button onClick={() => signOut()}>Sign out</button>
+				<button onClick={() => signOut({ redirect: false })}>Sign out</button>
 			</>
 		);
 	}
@@ -18,7 +18,7 @@ const Home: NextPage = () => {
 	return (
 		<>
 			Not signed in <br />
-			<button onClick={() => signIn()}>Sign in</button>
+			<button onClick={() => signIn('github')}>Sign in</button>
 		</>
 	);
 };
