@@ -54,14 +54,14 @@ export default NextAuth({
 
 			session.token = encodedToken;
 
-			return session;
+			return Promise.resolve(session);
 		},
 		async jwt({ token, user, account, profile, isNewUser }) {
 			if (user) {
 				token.id = user?.id.toString();
 			}
 
-			return token;
+			return Promise.resolve(token);
 		},
 	},
 	debug: true,
