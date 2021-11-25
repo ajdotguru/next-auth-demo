@@ -30,15 +30,15 @@ export default NextAuth({
 			const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'HS256' });
 			// const encodedToken = jwt.sign(token!, secret, { algorithm: 'HS256' });
 
-			return encodedToken;
-			// return Promise.resolve(encodedToken);
+			// return encodedToken;
+			return Promise.resolve(encodedToken);
 		},
 		async decode({ secret, token }) {
 			// @ts-ignore
 			const decodedToken = jwt.verify(token, secret, { algorithms: ['HS256'] });
 
-			return decodedToken;
-			// return Promise.resolve(decodedToken);
+			// return decodedToken;
+			return Promise.resolve(decodedToken);
 		},
 	},
 	callbacks: {
@@ -62,8 +62,8 @@ export default NextAuth({
 			return Promise.resolve(session);
 		},
 		async jwt({ token, user, account, profile, isNewUser }) {
-			if (user) {
-				token.id = user?.id.toString();
+			if (user && user.id) {
+				token.id = user.id.toString();
 			}
 
 			return Promise.resolve(token);
