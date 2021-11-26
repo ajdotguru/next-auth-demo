@@ -39,12 +39,12 @@ export default NextAuth({
 				},
 			};
 
-			const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'HS256' });
+			const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'RS256' });
 
 			return encodedToken;
 		},
 		decode: async ({ secret, token }) => {
-			const decodedToken = jwt.verify(token, secret, { algorithms: ['HS256'] });
+			const decodedToken = jwt.verify(token, secret, { algorithms: ['RS256'] });
 
 			return decodedToken;
 		},
@@ -52,7 +52,7 @@ export default NextAuth({
 	callbacks: {
 		async session({ session, token }) {
 			const encodedToken = jwt.sign(token, process.env.SECRET, {
-				algorithm: 'HS256',
+				algorithm: 'RS256',
 			});
 
 			session.id = token.id;
