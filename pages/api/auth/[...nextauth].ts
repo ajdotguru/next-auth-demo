@@ -28,33 +28,18 @@ export default NextAuth({
 				},
 			}; */
 
-			const jwtClaims = {
-				sub: '123456',
-				id: '123456',
-				name: 'token.name',
-				picture: 'token.picture',
-				iat: Date.now() / 1000,
-				exp: Math.floor(Date.now() / 1000) + 60 * 60,
-				'https://hasura.io/jwt/claims': {
-					'x-hasura-allowed-roles': ['user'],
-					'x-hasura-default-role': 'user',
-					'x-hasura-role': 'user',
-					'x-hasura-user-id': '123456',
-				},
-			};
+			// const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'RS256' });
+			const encodedToken = jwt.sign(token, secret, { algorithm: 'RS256' });
 
-			const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'HS256' });
-			// const encodedToken = jwt.sign(token!, secret, { algorithm: 'HS256' });
-
-			// return encodedToken;
-			return Promise.resolve(encodedToken);
+			return encodedToken;
+			// return Promise.resolve(encodedToken);
 		},
 		async decode({ secret, token }) {
 			// @ts-ignore
-			const decodedToken = jwt.verify(token, secret, { algorithms: ['HS256'] });
+			const decodedToken = jwt.verify(token, secret, { algorithms: ['RS256'] });
 
-			// return decodedToken;
-			return Promise.resolve(decodedToken);
+			return decodedToken;
+			// return Promise.resolve(decodedToken);
 		},
 	},
 	callbacks: {
@@ -68,7 +53,7 @@ export default NextAuth({
 
 			// @ts-ignore
 			const encodedToken = jwt.sign(token, process.env.SECRET, {
-				algorithm: 'HS256',
+				algorithm: 'RS256',
 			});
 
 			if (session) {
