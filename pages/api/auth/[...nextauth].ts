@@ -14,7 +14,7 @@ export default NextAuth({
 	jwt: {
 		secret: process.env.SECRET,
 		encode: async ({ secret, token }) => {
-			const jwtClaims = {
+			/* const jwtClaims = {
 				sub: token.id,
 				name: token.name,
 				// picture: token.picture,
@@ -25,6 +25,15 @@ export default NextAuth({
 					'x-hasura-default-role': 'user',
 					'x-hasura-role': 'user',
 					'x-hasura-user-id': token.id,
+				},
+			}; */
+
+			const jwtClaims = {
+				...token,
+				'https://hasura.io/jwt/claims': {
+					'x-hasura-allowed-roles': ['user'],
+					'x-hasura-default-role': 'user',
+					'x-hasura-role': 'user',
 				},
 			};
 
@@ -55,11 +64,6 @@ export default NextAuth({
 			}
 
 			return Promise.resolve(token);
-		},
-		redirect({ url, baseUrl }) {
-			if (url.startsWith(baseUrl)) return url;
-			else if (url.startsWith('/')) return new URL(url, baseUrl).toString();
-			return baseUrl;
 		},
 	},
 	debug: true,
