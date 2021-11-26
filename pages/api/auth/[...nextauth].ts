@@ -28,15 +28,15 @@ export default NextAuth({
 				},
 			}; */
 
-			// const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'RS256' });
-			const encodedToken = jwt.sign(token, secret, { algorithm: 'RS256' });
+			// const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'HS256' });
+			const encodedToken = jwt.sign(token, secret, { algorithm: 'HS256' });
 
 			return encodedToken;
 			// return Promise.resolve(encodedToken);
 		},
 		async decode({ secret, token }) {
 			// @ts-ignore
-			const decodedToken = jwt.verify(token, secret, { algorithms: ['RS256'] });
+			const decodedToken = jwt.verify(token, secret, { algorithms: ['HS256'] });
 
 			return decodedToken;
 			// return Promise.resolve(decodedToken);
@@ -53,7 +53,7 @@ export default NextAuth({
 
 			// @ts-ignore
 			const encodedToken = jwt.sign(token, process.env.SECRET, {
-				algorithm: 'RS256',
+				algorithm: 'HS256',
 			});
 
 			if (session) {
