@@ -13,58 +13,45 @@ export default NextAuth({
 	secret: process.env.SECRET,
 	jwt: {
 		secret: process.env.SECRET,
-		async encode({ secret, token }) {
-			/* const jwtClaims = {
-				sub: token!.sub!.toString(),
-				name: token!.name,
-				picture: token!.picture,
+		encode: async ({ secret, token }) => {
+			const jwtClaims = {
+				sub: token.id.toString(),
+				name: token.name,
+				// picture: token.picture,
 				iat: Date.now() / 1000,
 				exp: Math.floor(Date.now() / 1000) + 60 * 60,
 				'https://hasura.io/jwt/claims': {
 					'x-hasura-allowed-roles': ['user'],
 					'x-hasura-default-role': 'user',
 					'x-hasura-role': 'user',
-					'x-hasura-user-id': token!.sub!.toString(),
+					'x-hasura-user-id': token.id.toString(),
 				},
-			}; */
+			};
 
-			// const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'HS256' });
-			const encodedToken = jwt.sign(token, secret, { algorithm: 'HS256' });
+			const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'HS256' });
 
 			return encodedToken;
-			// return Promise.resolve(encodedToken);
 		},
-		async decode({ secret, token }) {
-			// @ts-ignore
+		decode: async ({ secret, token }) => {
 			const decodedToken = jwt.verify(token, secret, { algorithms: ['HS256'] });
 
 			return decodedToken;
-			// return Promise.resolve(decodedToken);
 		},
 	},
 	callbacks: {
-		async session({ session, token, user }) {
-			if (session && session.user) {
-				session.user.image = token.picture;
-			}
-
-			token.name = undefined;
-			token.picture = undefined;
-
-			// @ts-ignore
+		async session({ session, token }) {
 			const encodedToken = jwt.sign(token, process.env.SECRET, {
 				algorithm: 'HS256',
 			});
 
-			if (session) {
-				session.token = encodedToken;
-			}
+			session.id = token.id;
+			session.token = encodedToken;
 
 			return Promise.resolve(session);
 		},
 		async jwt({ token, user, account, profile, isNewUser }) {
 			if (user) {
-				token.id = user?.id.toString();
+				token.id = user.id.toString();
 			}
 
 			return Promise.resolve(token);
