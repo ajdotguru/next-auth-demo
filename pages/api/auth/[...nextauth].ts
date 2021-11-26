@@ -15,7 +15,7 @@ export default NextAuth({
 		secret: process.env.SECRET,
 		encode: async ({ secret, token }) => {
 			const jwtClaims = {
-				sub: token.id.toString(),
+				sub: token.id,
 				name: token.name,
 				// picture: token.picture,
 				iat: Date.now() / 1000,
@@ -24,7 +24,7 @@ export default NextAuth({
 					'x-hasura-allowed-roles': ['user'],
 					'x-hasura-default-role': 'user',
 					'x-hasura-role': 'user',
-					'x-hasura-user-id': token.id.toString(),
+					'x-hasura-user-id': token.id,
 				},
 			};
 
@@ -51,7 +51,7 @@ export default NextAuth({
 		},
 		async jwt({ token, user, account, profile, isNewUser }) {
 			if (user) {
-				token.id = user.id.toString();
+				token.id = user.id;
 			}
 
 			return Promise.resolve(token);
