@@ -30,10 +30,12 @@ export default NextAuth({
 
 			const jwtClaims = {
 				...token,
+				exp: Math.floor(Date.now() / 1000) + 60 * 60,
 				'https://hasura.io/jwt/claims': {
 					'x-hasura-allowed-roles': ['user'],
 					'x-hasura-default-role': 'user',
 					'x-hasura-role': 'user',
+					'x-hasura-user-id': token.id,
 				},
 			};
 
